@@ -1,0 +1,28 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+@model Factory.Models.Machine
+
+<main>
+    <div class="page-ttl">
+        <h3>Add Machine</h3>
+        <span>@Html.ActionLink("View All", "Index", "Home")</span>
+    </div>
+    <section>
+        <p>@Html.ValidationMessageFor(model => model.MachineName)</p>
+        <p>@Html.ValidationMessageFor(model => model.MachineType)</p>
+        @using (Html.BeginForm())
+        {
+            <div class="form-entry">
+                @Html.Label("MachineName", "Name")
+                @Html.TextBoxFor(model => model.MachineName)
+            </div>
+            <div class="form-entry">
+                @Html.Label("MachineType", "Type")
+                @Html.TextBoxFor(model => model.MachineType)
+            </div>
+            <input type="submit" value="Add Machine" />
+        }
+    </section>
+</main>

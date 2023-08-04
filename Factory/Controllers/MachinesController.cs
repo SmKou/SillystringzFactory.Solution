@@ -11,8 +11,22 @@ public class MachinesController : Controller
         _db = db;
     }
 
-    // public ActionResult Create() {}
-    // [HttpPost] public ActionResult Create(Machine machine) {}
+    public ActionResult Create()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Machine machine)
+    {
+        if (!ModelState.IsValid)
+            return View();
+
+        _db.Machines.Add(machine);
+        _db.SaveChanges();
+        return RedirectToAction("Index", "Home");
+    }
+
     // public ActionResult Details(int id) {}
     // public ActionResult AddEngineer(Machine machine, int engineerId) {}
     // public ActionResult Edit(int id) {}

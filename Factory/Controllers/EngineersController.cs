@@ -11,8 +11,22 @@ public class EngineersController : Controller
         _db = db;
     }
 
-    // public ActionResult Create() {}
-    // [HttpPost] public ActionResult Create(Engineer engineer) {}
+    public ActionResult Create() 
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Create(Engineer engineer)
+    {
+        if (!ModelState.IsValid)
+            return View();
+
+        _db.Engineers.Add(engineer);
+        _db.SaveChanges();
+        return RedirectToAction("Index", "Home");
+    }
+
     // public ActionResult Details(int id) {}
     // public ActionResult AddMachine(Engineer engineer, int machineId) {}
     // public ActionResult Edit(int id) {}

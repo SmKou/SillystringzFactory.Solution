@@ -1,0 +1,23 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+@model Factory.Models.Engineer
+
+<main>
+    <div class="page-ttl">
+        <h3>Add Engineer</h3>
+        <span>@Html.ActionLink("View All", "Index", "Home")</span>
+    </div>
+    <section>
+        <p>@Html.ValidationMessageFor(model => model.EngineerName)</p>
+        @using (Html.BeginForm())
+        {
+            <div class="form-entry">
+                @Html.Label("EngineerName", "Name")
+                @Html.TextBoxFor(model => model.EngineerName)
+            </div>
+            <input type="submit" value="Add Engineer" />
+        }
+    </section>
+</main>
