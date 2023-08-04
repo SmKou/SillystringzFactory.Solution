@@ -55,8 +55,8 @@ CREATE TABLE Machines (
     Name VARCHAR(255)
     Type VARCHAR(255)
 );
-CREATE TABLE Machine_Engineers (
-    MachineEngineerId INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+CREATE TABLE EngineerMachines (
+    EngineerMachineId INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     MachineId INT,
     EngineerId INT
 )
