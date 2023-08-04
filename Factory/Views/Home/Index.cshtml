@@ -1,0 +1,53 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+
+<main>
+    <div class="section-ttl">
+        <h3>Machines</h3>
+        <span>@Html.ActionLink("Add Machine", "Create", "Machines")</span>
+    </div>
+    <section>
+        @if (@Model["Machines"].Count == 0)
+        {
+            <p>No machines have been added yet.</p>
+        }
+        else
+        {
+            <ul class="display-list">
+                @foreach (Machine machine in Model["Machines"])
+                {
+                    <li>
+                        @Html.ActionLink($"{machine.Name} ({machine.Type})", "Details", "Machines", new { id = @machine.MachineId })
+                        @Html.ActionLink("Edit", "Edit", "Machines", new { id = @machine.MachineId })
+                        @Html.ActionLink("Delete", "Delete", "Machines", new { id = @machine.MachineId })
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+    <div class="section-ttl">
+        <h3>Engineers</h3>
+        <span>@Html.ActionLink("Add Engineer", "Create", "Engineers")</span>
+    </div>
+    <section>
+        @if (@Model["Engineers"].Count == 0)
+        {
+            <p>No engineers have been added yet.</p>
+        }
+        else
+        {
+            <ul class="display-list">
+                @foreach (Engineer engineer in Model["Engineers"])
+                {
+                    <li>
+                        @Html.ActionLink(@engineer.Name, "Details", "Engineers", new { id = @engineer.EngineerId })
+                        @Html.ActionLink("Edit", "Edit", "Engineers", new { id = @engineer.EngineerId })
+                        @Html.ActionLink("Delete", "Delete", "Engineers", new { id = @engineer.EngineerId })
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+</main>
