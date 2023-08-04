@@ -1,0 +1,45 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+@model Factory.Models.EngineerMachine
+
+<main>
+    <div class="page-ttl">
+        <h3>Engineer: @Model.Engineer.EngineerName</h3>
+        <ul class="nav">
+            <li>@Html.ActionLink("Edit", "Edit", new { id = @Model.Engineer.EngineerId })</li>
+            <li>@Html.ActionLink("Delete", "Delete", new { id = @Model.Engineer.EngineerId })</li>
+        </ul>
+    </div>
+    <section>
+        @using (Html.BeginForm("AddMachine"))
+        {
+            @Html.HiddenFor(model => model.EngineerId)
+            <div class="form-entry">
+                @Html.LabelFor(model => model.Machine)
+                @Html.DropDownList("MachineId")
+            </div>
+            <input type="submit" value="Add Machine" />
+        }
+    </section>
+    <section>
+        @if (@Model.Engineer.Machines.Count == 0)
+        {
+            <p>This engineer is not licensed for any machines yet.</p>
+        }
+        else
+        {
+            <ul class="display-list">
+                @foreach (Machine machine in Model.Engineer.Machines)
+                {
+                    <li>
+                        @Html.ActionLink(@machine.MachineName, "Details", "Machines", new { id = @machine.MachineId })
+                        @Html.ActionLink(@machine.MachineType, "Details", "Machines", new { id = @machine.MachineId })
+                        @Html.ActionLink("Delete", "RemoveMachine", new { engineerId = @Model.EngineerId, machineId = @machine.MachineId })
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+</main>
