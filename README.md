@@ -13,6 +13,7 @@ By: Stella Marie
 
 Sillystringz Factory is an MVC app for managing engineers and machines, where an engineer can be licensed to repair many machines and a machine can have many engineers licensed to repair it.
 
+**Requirements**
 - Splash screen: list of all engineers and all machines
 - Select engineer, see details and list of machines licensed to repair
 - Select machine, see details and list of engineers licensed to repair
