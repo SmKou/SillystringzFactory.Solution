@@ -65,8 +65,20 @@ public class MachinesController : Controller
         return RedirectToAction("Details", new { id = mId });
     }
 
-    // public ActionResult Edit(int id) {}
-    // [HttpPost] public ActionResult Edit(Machine machine) {}
+    public ActionResult Edit(int id) 
+    {
+        Machine machine = _db.Machines
+            .FirstOrDefault(mach => mach.MachineId == id);
+        return View(machine);
+    }
+    
+    [HttpPost]
+    public ActionResult Edit(Machine machine) 
+    {
+        _db.Machines.Update(machine);
+        _db.SaveChanges();
+        return RedirectToAction("Details", new { id = machine.MachineId });
+    }
 
     public ActionResult Delete(int id)
     {

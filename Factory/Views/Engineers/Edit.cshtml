@@ -1,0 +1,22 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+@model Factory.Models.Engineer
+
+<main>
+    <div class="page-ttl">
+        <h3>Edit Engineer: @Model.EngineerName</h3>
+    </div>
+    <section>
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(model => model.EngineerId)
+            <div class="form-entry">
+                @Html.Label("EngineerName", "Name")
+                @Html.TextBoxFor(model => model.EngineerName)
+            </div>
+            <input type="submit" value="Save" />
+        }
+    </section>
+</main>

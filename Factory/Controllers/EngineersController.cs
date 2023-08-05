@@ -65,8 +65,20 @@ public class EngineersController : Controller
         return RedirectToAction("Details", new { id = eId });
     }
 
-    // public ActionResult Edit(int id) {}
-    // [HttpPost] public ActionResult Edit(Engineer engineer) {}
+    public ActionResult Edit(int id) 
+    {
+        Engineer engineer = _db.Engineers
+            .FirstOrDefault(engr => engr.EngineerId == id);
+        return View(engineer);
+    }
+    
+    [HttpPost]
+    public ActionResult Edit(Engineer engineer) 
+    {
+        _db.Engineers.Update(engineer);
+        _db.SaveChanges();
+        return RedirectToAction("Details", new { id = engineer.EngineerId });
+    }
 
     public ActionResult Delete(int id)
     {

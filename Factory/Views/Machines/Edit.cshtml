@@ -1,0 +1,26 @@
+@{
+    Layout = "_Layout";
+}
+@using Factory.Models;
+@model Factory.Models.Machine
+
+<main>
+    <div class="page-ttl">
+        <h3>Edit Machine: @Model.MachineName (@Model.MachineType)</h3>
+    </div>
+    <section>
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(model => model.MachineId)
+            <div class="form-entry">
+                @Html.Label("MachineName", "Name")
+                @Html.TextBoxFor(model => model.MachineName)
+            </div>
+            <div class="form-entry">
+                @Html.Label("MachineType", "Type")
+                @Html.TextBoxFor(model => model.MachineType)
+            </div>
+            <input type="submit" value="Save" />
+        }
+    </section>
+</main>
