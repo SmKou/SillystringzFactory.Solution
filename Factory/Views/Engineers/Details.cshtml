@@ -17,7 +17,7 @@
         {
             @Html.HiddenFor(model => model.EngineerId)
             <div class="form-entry">
-                @Html.LabelFor(model => model.Machine)
+                @Html.Label("Select machine")
                 @Html.DropDownList("MachineId")
             </div>
             <input type="submit" value="Add Machine" />
@@ -30,13 +30,12 @@
         }
         else
         {
-            <ul class="display-list">
-                @foreach (Machine machine in Model.Engineer.Machines)
+            <ul class="display-list list-2">
+                @foreach (EngineerMachine machine in Model.Engineer.Machines)
                 {
                     <li>
-                        @Html.ActionLink(@machine.MachineName, "Details", "Machines", new { id = @machine.MachineId })
-                        @Html.ActionLink(@machine.MachineType, "Details", "Machines", new { id = @machine.MachineId })
-                        @Html.ActionLink("Delete", "RemoveMachine", new { engineerId = @Model.EngineerId, machineId = @machine.MachineId })
+                        @Html.ActionLink(@machine.Machine.MachineName, "Details", "Machines", new { id = @machine.MachineId })
+                        @Html.ActionLink("Delete", "RemoveMachine", new { engineerId = @machine.EngineerId, machineId = @machine.MachineId })
                     </li>
                 }
             </ul>

@@ -27,8 +27,43 @@ public class MachinesController : Controller
         return RedirectToAction("Index", "Home");
     }
 
-    // public ActionResult Details(int id) {}
-    // public ActionResult AddEngineer(Machine machine, int engineerId) {}
+    public ActionResult Details(int id) 
+    {
+        EngineerMachine em = new EngineerMachine();
+        em.MachineId = id;
+        em.Machine = _db.Machines
+            .Include(mach => mach.Engineers)
+            .ThenInclude(join => join.Engineer)
+            .FirstOrDefault(mach => mach.MachineId == id);
+        ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "EngineerName");
+        return View(em);
+    }
+
+    [HttpPost]
+    public ActionResult AddEngineer(EngineerMachine em) 
+    {
+        bool hasRelation = _db.EngineerMachines
+            .Any(join => join.MachineId == em.MachineId
+            && join.EngineerId == em.EngineerId);
+        if (!hasRelation)
+        {
+            _db.EngineerMachines.Add(em);
+            _db.SaveChanges();
+        }
+        return RedirectToAction("Details", new { id = em.MachineId });
+    }
+
+    [HttpPost]
+    public ActionResult RemoveEngineer(int joinId)
+    {
+        EngineerMachine em = _db.EngineerMachines
+            .FirstOrDefault(join => join.EngineerMachineId == joinId);
+        int mId = em.MachineId;
+        _db.EngineerMachines.Remove(em);
+        _db.SaveChanges();
+        return RedirectToAction("Details", new { id = mId });
+    }
+
     // public ActionResult Edit(int id) {}
     // [HttpPost] public ActionResult Edit(Machine machine) {}
 

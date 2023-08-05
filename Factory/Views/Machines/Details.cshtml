@@ -5,5 +5,44 @@
 @model Factory.Models.EngineerMachine
 
 <main>
-    
+    <div class="page-ttl">
+        <h3>Machine: @Model.Machine.MachineName</h3>
+        <ul class="nav">
+            <li>@Html.ActionLink("Edit", "Edit", new { id = @Model.MachineId})</li>
+            <li>@Html.ActionLink("Delete", "Delete", new { id = @Model.MachineId })</li>
+        </ul>
+    </div>
+    <section>
+        @using (Html.BeginForm("AddEngineer", "Machines", FormMethod.Post))
+        {
+            @Html.HiddenFor(model => model.MachineId)
+            <div class="form-entry">
+                @Html.Label("Select engineer")
+                @Html.DropDownList("EngineerId")
+            </div>
+            <input type="submit" value="Add Engineer" />
+        }
+    </section>
+    <section>
+        @if (@Model.Machine.Engineers.Count == 0)
+        {
+            <p>This machine has no licensed engineers to repair it yet.</p>
+        }
+        else
+        {
+            <ul class="display-list">
+                @foreach (EngineerMachine engineer in Model.Machine.Engineers)
+                {
+                    <li>
+                        @Html.ActionLink(@engineer.Engineer.EngineerName, "Details", "Engineers", new { id = @engineer.EngineerId })
+                        @using (Html.BeginForm("RemoveEngineer", "Machines", FormMethod.Post))
+                        {
+                            @Html.Hidden("joinId", @engineer.EngineerMachineId)
+                            <input type="submit" value="Delete" />
+                        }
+                    </li>
+                }
+            </ul>
+        }
+    </section>
 </main>

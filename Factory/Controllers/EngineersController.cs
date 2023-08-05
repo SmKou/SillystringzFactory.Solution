@@ -29,35 +29,34 @@ public class EngineersController : Controller
 
     public ActionResult Details(int id) 
     {
-        EngineerMachine join = new EngineerMachine();
-        join.EngineerId = id;
-        join.Engineer = _db.Engineers
+        EngineerMachine em = new EngineerMachine();
+        em.Engineer = _db.Engineers
             .Include(engr => engr.Machines)
             .ThenInclude(join => join.Machine)
             .FirstOrDefault(engr => engr.EngineerId == id);
-        ViewBag.Machines = new SelectList(_db.Machines, "MachineId", "MachineName");
-        return View(engineer);
+        ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "MachineName");
+        return View(em);
     }
 
-    public ActionResult AddMachine(EngineerMachine join)
+    public ActionResult AddMachine(EngineerMachine em)
     {
         bool hasRelation = _db.EngineerMachines
-            .Any(join => join.EngineerId == join.EngineerId
-            && join.MachineId == join.MachineId);
+            .Any(join => join.EngineerId == em.EngineerId
+            && join.MachineId == em.MachineId);
         if (!hasRelation)
         {
-            _db.EngineerMachines.Add(join);
+            _db.EngineerMachines.Add(em);
             _db.SaveChanges();
         }
-        return RedirectToAction("Details", new { id = engineerMachine.EngineerId });
+        return RedirectToAction("Details", new { id = em.EngineerId });
     }
 
     public ActionResult RemoveMachine(int engineerId, int machineId)
     {
-        EngineerMachine join = _db.EngineerMachines
+        EngineerMachine em = _db.EngineerMachines
             .FirstOrDefault(join => join.EngineerId == engineerId
             && join.MachineId == machineId);
-        _db.EngineerMachines.Remove(join);
+        _db.EngineerMachines.Remove(em);
         _db.SaveChanges();
         return RedirectToAction("Details", new { id = engineerId });
     }
