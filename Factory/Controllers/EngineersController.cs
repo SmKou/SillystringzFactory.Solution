@@ -30,14 +30,17 @@ public class EngineersController : Controller
     public ActionResult Details(int id) 
     {
         EngineerMachine em = new EngineerMachine();
+        em.EngineerId = id;
         em.Engineer = _db.Engineers
             .Include(engr => engr.Machines)
             .ThenInclude(join => join.Machine)
             .FirstOrDefault(engr => engr.EngineerId == id);
-        ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "MachineName");
+        if (_db.Machines.Count() != 0)
+            ViewBag.MachineId = new SelectList(_db.Machines, "MachineId", "MachineName");
         return View(em);
     }
 
+    [HttpPost]
     public ActionResult AddMachine(EngineerMachine em)
     {
         bool hasRelation = _db.EngineerMachines
@@ -51,14 +54,15 @@ public class EngineersController : Controller
         return RedirectToAction("Details", new { id = em.EngineerId });
     }
 
-    public ActionResult RemoveMachine(int engineerId, int machineId)
+    [HttpPost]
+    public ActionResult RemoveMachine(int joinId)
     {
         EngineerMachine em = _db.EngineerMachines
-            .FirstOrDefault(join => join.EngineerId == engineerId
-            && join.MachineId == machineId);
+            .FirstOrDefault(join => join.EngineerMachineId == joinId);
+        int eId = em.EngineerId;
         _db.EngineerMachines.Remove(em);
         _db.SaveChanges();
-        return RedirectToAction("Details", new { id = engineerId });
+        return RedirectToAction("Details", new { id = eId });
     }
 
     // public ActionResult Edit(int id) {}

@@ -8,19 +8,27 @@
     <div class="page-ttl">
         <h3>Engineer: @Model.Engineer.EngineerName</h3>
         <ul class="nav">
-            <li>@Html.ActionLink("Edit", "Edit", new { id = @Model.Engineer.EngineerId })</li>
-            <li>@Html.ActionLink("Delete", "Delete", new { id = @Model.Engineer.EngineerId })</li>
+            <li>@Html.ActionLink("Edit", "Edit", new { id = @Model.EngineerId })</li>
+            <li>@Html.ActionLink("Delete", "Delete", new { id = @Model.EngineerId })</li>
         </ul>
     </div>
     <section>
-        @using (Html.BeginForm("AddMachine"))
+        @if (ViewBag.MachineId == null)
         {
-            @Html.HiddenFor(model => model.EngineerId)
-            <div class="form-entry">
-                @Html.Label("Select machine")
-                @Html.DropDownList("MachineId")
-            </div>
-            <input type="submit" value="Add Machine" />
+            <p>There are no machines added yet.</p>
+            <p>@Html.ActionLink("Add Machine", "Create", "Machines")</p>
+        }
+        else
+        {
+            @using (Html.BeginForm("AddMachine", "Engineers", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.EngineerId)
+                <div class="form-entry">
+                    @Html.Label("Select machine")
+                    @Html.DropDownList("MachineId")
+                </div>
+                <input type="submit" value="Add Machine" />
+            }
         }
     </section>
     <section>
@@ -35,7 +43,11 @@
                 {
                     <li>
                         @Html.ActionLink(@machine.Machine.MachineName, "Details", "Machines", new { id = @machine.MachineId })
-                        @Html.ActionLink("Delete", "RemoveMachine", new { engineerId = @machine.EngineerId, machineId = @machine.MachineId })
+                        @using (Html.BeginForm("RemoveMachine", "Engineers", FormMethod.Post))
+                        {
+                            @Html.Hidden("joinId", @machine.EngineerMachineId)
+                            <input type="submit" value="Delete" />
+                        }
                     </li>
                 }
             </ul>

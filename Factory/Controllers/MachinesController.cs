@@ -35,7 +35,8 @@ public class MachinesController : Controller
             .Include(mach => mach.Engineers)
             .ThenInclude(join => join.Engineer)
             .FirstOrDefault(mach => mach.MachineId == id);
-        ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "EngineerName");
+        if (_db.Engineers.Count() != 0)
+            ViewBag.EngineerId = new SelectList(_db.Engineers, "EngineerId", "EngineerName");
         return View(em);
     }
 

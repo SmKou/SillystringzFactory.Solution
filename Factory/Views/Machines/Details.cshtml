@@ -13,14 +13,22 @@
         </ul>
     </div>
     <section>
-        @using (Html.BeginForm("AddEngineer", "Machines", FormMethod.Post))
+        @if (ViewBag.EngineerId == null)
         {
-            @Html.HiddenFor(model => model.MachineId)
-            <div class="form-entry">
-                @Html.Label("Select engineer")
-                @Html.DropDownList("EngineerId")
-            </div>
-            <input type="submit" value="Add Engineer" />
+            <p>There are no engineers added yet.</p>
+            <p>@Html.ActionLink("Add Engineer", "Create", "Engineers")</p>
+        }
+        else
+        {
+            @using (Html.BeginForm("AddEngineer", "Machines", FormMethod.Post))
+            {
+                @Html.HiddenFor(model => model.MachineId)
+                <div class="form-entry">
+                    @Html.Label("Select engineer")
+                    @Html.DropDownList("EngineerId")
+                </div>
+                <input type="submit" value="Add Engineer" />
+            }
         }
     </section>
     <section>
@@ -30,7 +38,7 @@
         }
         else
         {
-            <ul class="display-list">
+            <ul class="display-list list-2">
                 @foreach (EngineerMachine engineer in Model.Machine.Engineers)
                 {
                     <li>
